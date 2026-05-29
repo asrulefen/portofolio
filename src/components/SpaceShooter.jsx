@@ -817,7 +817,7 @@ export default function SpaceShooter() {
           background: 'linear-gradient(180deg, #050505 0%, #1a0b2e 30%, #1a0b2e 70%, #050505 100%)',
           position: 'relative',
           overflow: 'hidden',
-          touchAction: 'none' // Prevent pull-to-refresh on mobile
+          touchAction: gameState === 'PLAYING' ? 'none' : 'auto' // Allow scroll when not playing
         }}
       >
         <canvas 
