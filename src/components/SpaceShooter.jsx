@@ -161,6 +161,13 @@ export default function SpaceShooter() {
     loadImg('enemy4', '/pesawat/musuh 4.png');
     loadImg('enemy5', '/pesawat/musuh 5.png');
     loadImg('enemy6', '/pesawat/musuh 6.png');
+
+    // Auto-start game if URL contains #space-shooter
+    if (window.location.hash === '#space-shooter') {
+      setTimeout(() => {
+        startGame();
+      }, 1000);
+    }
   }, []);
 
   const startGame = () => {
@@ -452,9 +459,15 @@ export default function SpaceShooter() {
       handleMove(e.touches[0].clientX, e.touches[0].clientY);
     };
 
+    const onWheel = (e) => {
+      // Prevent page scrolling when hovering over canvas while playing
+      e.preventDefault();
+    };
+
     canvas.addEventListener('mousemove', onMouseMove);
     canvas.addEventListener('touchmove', onTouchMove, { passive: false });
     canvas.addEventListener('touchstart', onTouchMove, { passive: false });
+    canvas.addEventListener('wheel', onWheel, { passive: false });
 
     // Drawing Helpers
     const drawImageCenter = (ctx, img, x, y, width, height, rotation = 0) => {
@@ -811,6 +824,7 @@ export default function SpaceShooter() {
       canvas.removeEventListener('mousemove', onMouseMove);
       canvas.removeEventListener('touchmove', onTouchMove);
       canvas.removeEventListener('touchstart', onTouchMove);
+      canvas.removeEventListener('wheel', onWheel);
     };
   }, [gameState]);
 
