@@ -9,6 +9,7 @@ import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
 import CustomCursor from './components/CustomCursor'
 import ScanLines from './components/ScanLines'
+import SpaceShooter from './components/SpaceShooter'
 
 function App() {
   const [activeSection, setActiveSection] = useState('hero')
@@ -33,6 +34,7 @@ function App() {
       <Navbar active={activeSection} />
       <main>
         <HeroSection />
+        <SpaceShooter />
         <AboutSection />
         <SkillsSection />
         <ProjectsSection />

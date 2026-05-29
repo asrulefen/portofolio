@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Hero3D from './Hero3D'
 
 const roles = [
@@ -34,8 +34,18 @@ export default function HeroSection() {
     return () => clearTimeout(timeout)
   }, [text, isDeleting, roleIndex])
 
+  const containerRef = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  })
+  
+  const photoY = useTransform(scrollYProgress, [0, 1], [0, 150])
+  const photoOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+  const photoScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8])
+
   return (
-    <section className="hero" id="hero" data-section="hero">
+    <section className="hero" id="hero" data-section="hero" ref={containerRef}>
       <div className="hero-canvas">
         <Hero3D />
       </div>
@@ -78,6 +88,18 @@ export default function HeroSection() {
             Get in Touch
           </a>
         </motion.div>
+      </motion.div>
+
+      <motion.div
+        className="hero-photo-container"
+        style={{ x: "-50%", y: photoY, opacity: photoOpacity, scale: photoScale }}
+        initial={{ x: "-50%", opacity: 0, scale: 0.5 }}
+        animate={{ x: "-50%", opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, type: "spring", bounce: 0.5, delay: 1.2 }}
+      >
+        <div className="hero-photo-frame">
+          <img src="/foto-saya.jpg" alt="Profile" className="hero-photo" />
+        </div>
       </motion.div>
 
       <div className="scroll-indicator">

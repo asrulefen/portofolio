@@ -26,7 +26,17 @@ export default function Navbar({ active }) {
 
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <div className="nav-brand">ASRULEFEN</div>
+      <div className="nav-brand-container">
+        <div className="rocket-flyby">
+          <div className="rocket-body">
+            <div className="rocket-trail"></div>
+            <span className="rocket-emoji">🚀</span>
+          </div>
+        </div>
+        <a href="#hero" className="nav-brand" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }}>
+          ASRUL<strong>EFEN</strong>
+        </a>
+      </div>
       <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
         {links.map(l => (
           <li key={l.id}>
