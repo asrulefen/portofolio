@@ -245,7 +245,7 @@ img { max-width: 100%; display: block; }
 @keyframes blink { 50% { opacity: 0; } }
 .hero-cta {
   margin-top: 40px; display: flex; gap: 16px;
-  justify-content: center; flex-wrap: wrap;
+  justify-content: center; flex-wrap: nowrap;
 }
 .btn-pill {
   font-family: var(--font-mono); font-size: 13px;
