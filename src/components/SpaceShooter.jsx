@@ -173,6 +173,14 @@ export default function SpaceShooter() {
     isPaused.current = false;
     setShowPauseUI(false);
     setGameState('PLAYING');
+
+    // Auto-scroll to fit game exactly below navbar
+    setTimeout(() => {
+      if (containerRef.current) {
+        const y = containerRef.current.getBoundingClientRect().top + window.scrollY - 70;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   // IntersectionObserver for auto-pause
