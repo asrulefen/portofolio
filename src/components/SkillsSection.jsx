@@ -20,37 +20,39 @@ export default function SkillsSection() {
         </p>
       </motion.div>
 
-      <div className="skills-grid">
-        {skillCategories.map((cat, ci) => (
-          <motion.div
-            key={cat.title}
-            className="skill-card"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 + ci * 0.1 }}
-          >
-            <div className="skill-card-title" style={{ color: cat.color }}>
-              <span>{cat.icon}</span> {cat.title}
-            </div>
-            {cat.skills.map((skill) => (
-              <div className="skill-item" key={skill.name}>
-                <div className="skill-name">
-                  <span>{skill.name}</span>
-                  <span style={{ color: cat.color }}>{skill.level}%</span>
-                </div>
-                <div className="skill-bar">
-                  <div
-                    className="skill-fill"
-                    style={{
-                      width: isInView ? `${skill.level}%` : '0%',
-                      background: `linear-gradient(90deg, ${cat.color}, ${cat.color}88)`
-                    }}
-                  />
-                </div>
+      <div className="skills-marquee-wrapper">
+        <div className="skills-grid">
+          {[...skillCategories, ...skillCategories].map((cat, ci) => (
+            <motion.div
+              key={`${cat.title}-${ci}`}
+              className="skill-card"
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 + (ci % skillCategories.length) * 0.1 }}
+            >
+              <div className="skill-card-title" style={{ color: cat.color }}>
+                <span>{cat.icon}</span> {cat.title}
               </div>
-            ))}
-          </motion.div>
-        ))}
+              {cat.skills.map((skill) => (
+                <div className="skill-item" key={`${cat.title}-${skill.name}-${ci}`}>
+                  <div className="skill-name">
+                    <span>{skill.name}</span>
+                    <span style={{ color: cat.color }}>{skill.level}%</span>
+                  </div>
+                  <div className="skill-bar">
+                    <div
+                      className="skill-fill"
+                      style={{
+                        width: isInView ? `${skill.level}%` : '0%',
+                        background: `linear-gradient(90deg, ${cat.color}, ${cat.color}88)`
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   )

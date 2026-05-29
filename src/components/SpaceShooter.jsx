@@ -164,9 +164,18 @@ export default function SpaceShooter() {
 
     // Auto-start game if URL contains #space-shooter
     if (window.location.hash === '#space-shooter') {
+      // Force scroll immediately
+      setTimeout(() => {
+        const el = document.getElementById('space-shooter');
+        if (el) {
+          const y = el.getBoundingClientRect().top + window.scrollY - 70;
+          window.scrollTo({ top: y, behavior: 'instant' });
+        }
+      }, 100);
+
       setTimeout(() => {
         startGame();
-      }, 1000);
+      }, 800);
     }
   }, []);
 
