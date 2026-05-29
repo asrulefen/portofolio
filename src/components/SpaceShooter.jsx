@@ -456,7 +456,21 @@ export default function SpaceShooter() {
     let globalTime = 0; // For sine waves
 
     // Input Handling
+    let audioUnlocked = false;
+    const unlockAudio = () => {
+      if (!audioUnlocked && soundManager.current) {
+        if (soundManager.current.ctx && soundManager.current.ctx.state === 'suspended') {
+          soundManager.current.ctx.resume();
+        }
+        if (soundManager.current.bgm && soundManager.current.bgm.paused && !isPaused.current) {
+          soundManager.current.playBGM();
+        }
+        audioUnlocked = true;
+      }
+    };
+
     const handleMove = (x, y) => {
+      unlockAudio();
       const rect = canvas.getBoundingClientRect();
       player.targetX = x - rect.left;
       player.targetY = y - rect.top;
@@ -468,6 +482,8 @@ export default function SpaceShooter() {
       handleMove(e.touches[0].clientX, e.touches[0].clientY);
     };
 
+    const onClick = () => unlockAudio();
+
     const onWheel = (e) => {
       // Prevent page scrolling when hovering over canvas while playing
       e.preventDefault();
@@ -477,6 +493,7 @@ export default function SpaceShooter() {
     canvas.addEventListener('touchmove', onTouchMove, { passive: false });
     canvas.addEventListener('touchstart', onTouchMove, { passive: false });
     canvas.addEventListener('wheel', onWheel, { passive: false });
+    canvas.addEventListener('click', onClick);
 
     // Drawing Helpers
     const drawImageCenter = (ctx, img, x, y, width, height, rotation = 0) => {
@@ -834,6 +851,7 @@ export default function SpaceShooter() {
       canvas.removeEventListener('touchmove', onTouchMove);
       canvas.removeEventListener('touchstart', onTouchMove);
       canvas.removeEventListener('wheel', onWheel);
+      canvas.removeEventListener('click', onClick);
     };
   }, [gameState]);
 
